@@ -23,3 +23,10 @@ provider "aws" {
 resource "aws_s3_bucket" "bucket-tf-backend" {
   bucket = "bpaulin-devops-tf-backend"
 }
+
+resource "aws_s3_bucket_versioning" "versioning_example" {
+  bucket = aws_s3_bucket.bucket-tf-backend
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
