@@ -1,4 +1,5 @@
 terraform {
+  required_version = ">= 1.0"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -29,12 +30,15 @@ resource "aws_kms_key" "tf-backend" {
 
 resource "aws_s3_bucket" "bucket-tf-backend" {
   bucket = "bpaulin-devops-tf-backend"
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.tf-backend.arn
-        sse_algorithm     = "aws:kms"
-      }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
+  bucket = aws_s3_bucket.bucket-tf-backend.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.tf-backend.arn
+      sse_algorithm     = "aws:kms"
     }
   }
 }
