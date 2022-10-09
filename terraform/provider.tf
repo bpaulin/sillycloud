@@ -28,6 +28,7 @@ resource "aws_kms_key" "tf-backend" {
   enable_key_rotation     = true
 }
 
+#tfsec:ignore:aws-s3-enable-bucket-logging
 resource "aws_s3_bucket" "bucket-tf-backend" {
   bucket = "bpaulin-devops-tf-backend"
 }
@@ -58,26 +59,3 @@ resource "aws_s3_bucket_versioning" "versioning_example" {
     status = "Enabled"
   }
 }
-
-
-
-# resource "aws_s3_bucket_acl" "bucket-tf-backend-acl" {
-#   bucket = aws_s3_bucket.bucket-tf-backend.id
-#   acl    = "private"
-# }
-
-# resource "aws_s3_bucket" "log_bucket" {
-#   bucket = "bucket-tf-backend"
-# }
-
-# resource "aws_s3_bucket_acl" "log_bucket_acl" {
-#   bucket = aws_s3_bucket.log_bucket.id
-#   acl    = "log-delivery-write"
-# }
-
-# resource "aws_s3_bucket_logging" "bucket-tf-backend" {
-#   bucket = aws_s3_bucket.bucket-tf-backend.id
-
-#   target_bucket = aws_s3_bucket.bucket-tf-backend.id
-#   target_prefix = "log/"
-# }

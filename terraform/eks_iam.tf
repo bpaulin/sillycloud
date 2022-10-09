@@ -25,3 +25,10 @@ resource "aws_iam_role_policy_attachment" "eks-sillykloud-AmazonEKSClusterPolicy
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.eks-sillykloud.name
 }
+
+
+resource "aws_kms_key" "kube-secrets" {
+  description             = "This key is used to encrypt kube secrets"
+  deletion_window_in_days = 10
+  enable_key_rotation     = true
+}
