@@ -5,22 +5,12 @@ terraform {
       source  = "hashicorp/aws"
       version = "4.34.0"
     }
-    sops = {
-      source  = "carlpett/sops"
-      version = "0.7.1"
-    }
-  }
-  backend "s3" {
-    bucket = "bpaulin-devops-tf-backend"
-    key    = "states/sillycloud.tfstate"
-    region = "eu-west-3"
   }
 }
 
 provider "aws" {
   region = "eu-west-3"
 }
-
 
 resource "aws_kms_key" "tf-backend" {
   description             = "This key is used to encrypt bucket objects"
@@ -33,7 +23,7 @@ resource "aws_s3_bucket" "bucket-tf-backend" {
   bucket = "bpaulin-devops-tf-backend"
 }
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
+resource "aws_s3_bucket_server_side_encryption_configuration" "bucket-tf-backen" {
   bucket = aws_s3_bucket.bucket-tf-backend.bucket
 
   rule {
@@ -44,7 +34,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "example" {
+resource "aws_s3_bucket_public_access_block" "bucket-tf-backen" {
   bucket = aws_s3_bucket.bucket-tf-backend.id
 
   block_public_acls       = true
@@ -53,7 +43,7 @@ resource "aws_s3_bucket_public_access_block" "example" {
   restrict_public_buckets = true
 }
 
-resource "aws_s3_bucket_versioning" "versioning_example" {
+resource "aws_s3_bucket_versioning" "bucket-tf-backen" {
   bucket = aws_s3_bucket.bucket-tf-backend.id
   versioning_configuration {
     status = "Enabled"
