@@ -1,8 +1,31 @@
-resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/16"
+resource "aws_vpc" "sillykloud" {
+  cidr_block = "192.168.0.0/16"
 }
 
-resource "aws_subnet" "main" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.1.0/24"
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+resource "aws_subnet" "sillykloud-public1" {
+  vpc_id            = aws_vpc.sillykloud.id
+  cidr_block        = "192.168.0.0/18"
+  availability_zone = data.aws_availability_zones.available.names[0]
+}
+
+resource "aws_subnet" "sillykloud-public2" {
+  vpc_id            = aws_vpc.sillykloud.id
+  cidr_block        = "192.168.64.0/18"
+  availability_zone = data.aws_availability_zones.available.names[1]
+}
+
+resource "aws_subnet" "sillykloud-private1" {
+  vpc_id            = aws_vpc.sillykloud.id
+  cidr_block        = "192.168.128.0/18"
+  availability_zone = data.aws_availability_zones.available.names[0]
+}
+
+resource "aws_subnet" "sillykloud-private2" {
+  vpc_id            = aws_vpc.sillykloud.id
+  cidr_block        = "192.168.192.0/18"
+  availability_zone = data.aws_availability_zones.available.names[1]
 }
