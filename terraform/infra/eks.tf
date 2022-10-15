@@ -18,6 +18,8 @@ resource "aws_eks_cluster" "sillykloud" {
     #tfsec:ignore:aws-eks-no-public-cluster-access
     endpoint_public_access = true
     public_access_cidrs    = [data.sops_file.secrets.data["ip_home"]]
+
+    endpoint_private_access = true
   }
   encryption_config {
     resources = ["secrets"]
